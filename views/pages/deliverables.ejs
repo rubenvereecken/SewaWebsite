@@ -108,7 +108,7 @@
 <div id="dialog-form" title="Create/Edit deliverables">
     <p class="validateTips"></p>
 
-    <form action="/deliverables-create" method="post" enctype="multipart/form-data">
+    <form action="/deliverables/create" method="post" enctype="multipart/form-data">
         <fieldset>
             <label for="deliverablestitle">Deliverable title</label>
             <input type="text" name="deliverablestitle" id="deliverablestitle" class="text ui-widget-content ui-corner-all">
@@ -265,7 +265,7 @@
 
             $.ajax({
                 type: "POST",
-                url: '/deliverables-delete',
+                url: '/deliverables/delete',
                 data: {
                     'deliverableId' : deliverableId
                 },

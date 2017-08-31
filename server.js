@@ -45,7 +45,7 @@ app.use(function(req, res, next) {
     next();
 });
 
-require('./app/routes.js')(app, passport);
+app.use(require('./app/routes'));
 
 var port = process.env.PORT || 3210;
 app.listen(port);
