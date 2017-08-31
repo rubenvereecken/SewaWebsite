@@ -49,4 +49,4 @@ require('./app/routes.js')(app, passport);
 
 var port = process.env.PORT || 3210;
 app.listen(port);
-console.log("Server running!");
+console.log(`Server running on port ${port}!`);

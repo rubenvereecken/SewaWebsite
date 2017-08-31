@@ -24,6 +24,7 @@ var Resources        = require('../app/models/resources');
 var Deliverables     = require('../app/models/deliverables');
 var Workshops        = require('../app/models/workshops');
 var StaticPages      = require('../app/models/static_pages');
+var config           = require('../config');
 
 // app/routes.js
 module.exports = function(app, passport) {
@@ -135,7 +136,7 @@ module.exports = function(app, passport) {
         StaticPages.findOrCreate({key: page_key}, function(err, page, created) {
             res.render('pages/static_page', { pageTitle: 'Sewa project', pageDescription: 'Sewa project description', pageName: page_key, page: page, sidebar: sidebar, news: news, adminUser: adminUser } );
         });
-    } 
+    }
 
     app.get('/', function(req, res) {
         render_static_page_with_news_and_sidebar(req, res, 'Home');
@@ -350,12 +351,13 @@ module.exports = function(app, passport) {
                 order = val;
         });
         req.busboy.on('file', function (fieldname, file, filename) {
-            download = '/files/' + GuidCreate() + path.extname(filename);
-            console.log("Uploading: " + filename);
-            fstream = fs.createWriteStream(global.appRoot + download);
+            download = GuidCreate() + path.extname(filename);
+            filepath = path.join(config.filepath, download)
+            console.log(`Uploading ${filename} to ${filepath}`);
+            fstream = fs.createWriteStream(filepath);
             file.pipe(fstream);
             fstream.on('close', function () {
-                console.log("Uploaded: " + filename);
+                console.log(`Uploaded ${filename}`);
             });
         });
         req.busboy.on('finish', function () {
@@ -464,12 +466,13 @@ module.exports = function(app, passport) {
 
         });
         req.busboy.on('file', function (fieldname, file, filename) {
-            download = '/files/' + GuidCreate() + path.extname(filename);
-            console.log("Uploading: " + filename);
-            fstream = fs.createWriteStream(global.appRoot + download);
+            download = GuidCreate() + path.extname(filename);
+            filepath = path.join(config.filepath, download)
+            console.log(`Uploading ${filename} to ${filepath}`);
+            fstream = fs.createWriteStream(filepath);
             file.pipe(fstream);
             fstream.on('close', function () {
-                console.log("Uploaded: " + filename);
+                console.log(`Uploaded ${filename}`);
             });
         });
         req.busboy.on('finish', function () {
@@ -557,12 +560,13 @@ module.exports = function(app, passport) {
                 resourceId = val;
         });
         req.busboy.on('file', function (fieldname, file, filename) {
-            download = '/files/' + GuidCreate() + path.extname(filename);
-            console.log("Uploading: " + filename);
-            fstream = fs.createWriteStream(global.appRoot + download);
+            download = GuidCreate() + path.extname(filename);
+            filepath = path.join(config.filepath, download)
+            console.log(`Uploading ${filename} to ${filepath}`);
+            fstream = fs.createWriteStream(filepath);
             file.pipe(fstream);
             fstream.on('close', function () {
-                console.log("Uploaded: " + filename);
+                console.log(`Uploaded ${filename}`);
             });
         });
         req.busboy.on('finish', function () {
@@ -709,10 +713,15 @@ module.exports = function(app, passport) {
         var request = url.parse(req.url, true);
         var action = request.pathname;
         //res.download(appRoot + action);
+        filepath = config.filepath + action
 
-        var stat = fs.statSync(appRoot + action);
+        try {
+          var stat = fs.statSync(filepath);
+          var fReadStream = fs.createReadStream(filepath);
+        } catch (e) {
+          return res.status(404).end()
+        }
         res.writeHeader(200,{"Content-Length":stat.size});
-        var fReadStream = fs.createReadStream(appRoot + action);
         fReadStream.on('data', function (chunk) {
             res.write(chunk);
         });
