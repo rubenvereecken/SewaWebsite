@@ -1,0 +1,40 @@
+{
+  "name": "sewawebsite",
+  "version": "1.0.0",
+  "description": "SewaWebsite\r ===========",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mojomanyana/SewaWebsite.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mojomanyana/SewaWebsite/issues"
+  },
+  "homepage": "https://github.com/mojomanyana/SewaWebsite#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "connect-busboy": "0.0.2",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.3",
+    "ejs": "^2.5.2",
+    "emailjs": "^1.0.8",
+    "express": "^4.14.0",
+    "express-session": "^1.14.1",
+    "fs": "0.0.1-security",
+    "mime": "^1.3.4",
+    "mongodb": "^2.2.10",
+    "mongoose": "^4.6.0",
+    "mongoose-findorcreate": "^0.1.2",
+    "morgan": "^1.7.0",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "path": "^0.12.7",
+    "url": "^0.11.0"
+  }
+}

@@ -1,0 +1,262 @@
+<% include ../partials/head %>
+<% include ../partials/header %>
+
+<section>
+  <div class="container container-twelve">
+    <!--<div class="row">
+      <div class="twelve columns">
+
+      </div>
+    </div>-->
+    <div class="row">
+      <div class="eight columns">
+      	<h2>News</h2>
+        <% if (adminUser) { %>
+            <br>
+            <a href="#" class="button" id="create-news">Create news</a>
+            <br> <br>
+        <% } %>
+        <div class="panel news">
+          <ul class="news-list">
+            <% for(var i=0; i<news.length; i++) { %>
+                <li>
+                    <h3><a href="#"><%= news[i].title %></a></h3>
+                    <small class="date"><%= news[i].date %></small>
+                    <p><%- news[i].full %></p>
+                    <% if (adminUser) { %>
+                        <br>
+                        <a href="#" data-id="<%= news[i]._id %>" class="button modifyNewsLink">Modify</a>
+                        <a href="#" data-id="<%= news[i]._id %>" class="button deleteNewsLink">Delete</a>
+                        <input type="hidden" id="<%= news[i]._id %>_title" value="<%= news[i].title %>" />
+                        <input type="hidden" id="<%= news[i]._id %>_short" value="<%= news[i].short %>" />
+                        <input type="hidden" id="<%= news[i]._id %>_full" value="<%= news[i].full %>" />
+                        <input type="hidden" id="<%= news[i]._id %>_date" value="<%= news[i].date %>" />
+                        <input type="hidden" id="<%= news[i]._id %>_order" value="<%= news[i].order %>" />
+                    <% } %>
+                </li>
+            <% } %>
+          </ul>
+          <div class="paging textcenter">
+                    <ul>
+                        <% for(var i=1; i<=numberOfPages; i++) { %>
+                            <% if ((i-1) == currentPage) { %>
+                                <li><a class="active" href="/news?page=<%=i-1%>"><%=i%></a></li>
+                            <% } else { %>
+                                <li><a href="/news?page=<%=i-1%>"><%=i%></a></li>
+                            <% } %>
+                        <% } %>
+                    </ul>
+                </div>
+        </div>
+      </div>
+      <div class="four columns">
+        <% include ../partials/workshops_side %>
+        <div class="panel boxed">
+			<h3>Participants</h3>
+            <div class="textcenter">
+            	<p><a href="http://www.imperial.ac.uk/" target="_blank"><img src="images/logo_imperial_college_london.png" alt="Imperial College London" class="responsive grayscale"></a></p>
+                <p><a href="http://www.uni-passau.de/en/" target="_blank"><img src="images/passau.png" alt="University of Passau" class="responsive grayscale"></a></p>
+                <p><a href="http://www.realeyesit.com/" target="_blank"><img src="images/realeyes.png" alt="Reale Eyes" class="responsive grayscale"></a></p>
+                <p><a href="http://playgen.com/" target="_blank"><img src="images/Playgen.png" alt="Playgen" class="responsive grayscale"></a></p>
+            </div>
+        </div>
+      	<div class="panel boxed">
+			<h3>Sponsors</h3>
+            <div class="textcenter">
+            <p><img src="images/eu-logo.png" alt="sponsors" class="responsive"><img src="images/horizon_20201.jpg" alt="sponsors" class="responsive"></p>
+            <p><small>Funding from the European Commision Horizon 2020 Programme.</small></p>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- container -->
+</section>
+
+<div id="dialog-form" title="Create/Edit news">
+    <p class="validateTips"></p>
+
+    <form>
+        <fieldset>
+            <label for="newstitle">News title</label>
+            <input type="text" name="newstitle" id="newstitle" class="text ui-widget-content ui-corner-all">
+            <label for="shortdescription">Short news description</label>
+            <input type="text" name="shortdescription" id="shortdescription" class="text ui-widget-content ui-corner-all">
+            <label for="fulldescription">Full news description</label>
+            <textarea name="fulldescription" id="fulldescription" class="text ui-widget-content ui-corner-all"></textarea>
+            <label for="newsorder">Order number</label>
+            <input type="text" name="newsorder" id="newsorder" value="<%= countNews+1 %>" class="text ui-widget-content ui-corner-all">
+            <label for="newsdate">News date</label>
+            <input type="text" name="newsdate" id="newsdate" class="text ui-widget-content ui-corner-all">
+            <!-- Allow form submission with keyboard without duplicating the dialog button -->
+            <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+            <input type="hidden" id="newsid" value="">
+        </fieldset>
+    </form>
+</div>
+
+<% include ../partials/footer %>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        var dialog, form,
+                newsid = $( "#newsid" ),
+                newstitle = $( "#newstitle" ),
+                shortdescription = $( "#shortdescription" ),
+                fulldescription = $( "#fulldescription" ),
+                newsorder = $( "#newsorder" ),
+                newsdate = $( "#newsdate" ),
+                allFields = $( [] ).add( newstitle ).add( shortdescription ).add( fulldescription ).add( newsorder ).add( newsdate ),
+                tips = $( ".validateTips" );
+
+        function updateTips( t ) {
+            tips
+                .text( t )
+                .addClass( "ui-state-highlight" );
+            setTimeout(function() {
+                tips.removeClass( "ui-state-highlight", 1500 );
+            }, 500 );
+        }
+
+        function checkLength( o, n, min, max ) {
+            if ( o.val().length > max || o.val().length < min ) {
+                o.addClass( "ui-state-error" );
+                updateTips( "Length of " + n + " must be between " +
+                min + " and " + max + "." );
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function checkRegexp( o, regexp, n ) {
+            if ( !( regexp.test( o.val() ) ) ) {
+                o.addClass( "ui-state-error" );
+                updateTips( n );
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function addNews() {
+            var valid = true;
+            allFields.removeClass( "ui-state-error" );
+
+            valid = valid && checkLength( newstitle, "News title", 5, 150 );
+            valid = valid && checkLength( shortdescription, "Short news description", 5, 1000 );
+            valid = valid && checkLength( fulldescription, "Full news description", 5, 4000 );
+            valid = valid && checkRegexp( newsorder, /^[0-9]+$/, "Order number only allow numbers" );
+
+            if ( valid ) {
+                // Do submit and refresh
+                loadingPopup();
+                $.ajax({
+                    type: "POST",
+                    url: '/news-create',
+                    data: {
+                        'newsId' : newsid.val(),
+                        'short' : shortdescription.val(),
+                        'title' : newstitle.val(),
+                        'full' : fulldescription.val(),
+                        'order' : newsorder.val(),
+                        'date' : newsdate.val()
+                    },
+                    success: function(data){
+                        if (data == 'Done') {
+                            location.reload();
+                        } else {
+                            $('#overlay').remove();
+                            alert(data);
+                        }
+                    }
+                });
+
+                dialog.dialog( "close" );
+            }
+            return valid;
+        }
+
+        dialog = $( "#dialog-form" ).dialog({
+            autoOpen: false,
+            height: 600,
+            width: 600,
+            modal: true,
+            buttons: {
+                "Save": addNews,
+                Cancel: function() {
+                    dialog.dialog( "close" );
+                }
+            },
+            close: function() {
+                form[ 0 ].reset();
+                allFields.removeClass( "ui-state-error" );
+            }
+        });
+
+        form = dialog.find( "form" ).on( "submit", function( event ) {
+            event.preventDefault();
+            addNews();
+        });
+
+        $( "#create-news" ).on( "click", function() {
+            var d = new Date();
+            var month = d.getMonth()+1;
+            var day = d.getDate();
+            var outputDate = (day<10 ? '0' : '') + day + '/' + (month<10 ? '0' : '') + month + '/' + d.getFullYear();
+            newsdate.val(outputDate);
+            $( "#newsid").val("");
+            dialog.dialog( "open" );
+            return false;
+        });
+
+        $("a.modifyNewsLink").on( "click", function() {
+            var newsid = $(this).attr("data-id");
+            $( "#newsid").val(newsid);
+            $( "#newstitle").val($("#" + newsid + "_title").val());
+            $( "#shortdescription").val($("#" + newsid + "_short").val());
+            $( "#fulldescription").val($("#" + newsid + "_full").val());
+            $( "#newsorder").val($("#" + newsid + "_order").val());
+            $( "#newsdate").val($("#" + newsid + "_date").val());
+
+            dialog.dialog( "open" );
+            return false;
+        });
+
+        $("a.deleteNewsLink").on( "click", function() {
+            var newsid = $(this).attr("data-id");
+            if (!confirm("Are you sure? This will delete this news!"))
+                return false;
+
+            $.ajax({
+                type: "POST",
+                url: '/news-delete',
+                data: {
+                    'newsId' : newsid
+                },
+                success: function(data){
+                    if (data == 'Done') {
+                        location.reload();
+                    } else {
+                        alert(data);
+                    }
+                }
+            });
+
+            return false;
+        });
+
+        bindPagingLinkClick();
+
+        function bindPagingLinkClick()
+        {
+            $(".paging a").bind("click", function() {
+                $.get($(this).attr("href"), function( data ) {
+                    $("div.news").html($($(data).find("div.news")[0]).html());
+                    bindPagingLinkClick();
+                });
+                return false;
+            });
+        }
+    });
+</script>

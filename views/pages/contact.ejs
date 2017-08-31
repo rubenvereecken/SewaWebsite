@@ -1,0 +1,104 @@
+<% include ../partials/head %>
+<% include ../partials/header %>
+
+<section>
+  <div class="container container-twelve">
+    <!--<div class="row">
+      <div class="twelve columns">
+
+      </div>
+    </div>-->
+    <div class="row">
+      <div class="eight columns">
+      	<h2>Contact Us</h2>
+        <p>Please fill in the form below if you have any questions, comments or would like to be involved in upcoming SEWA evaluations.</p>
+        <div class="formgroup">
+        <div class="formline">
+        	<label for="Firstname" class="formlabel">Full name <i class="fa fa-asterisk"></i></label>
+            <div class="formcontrol">
+            	<input type="text" id="Firstname">
+                <span class="validation" style="display: none;" id="valName"><i class="fa fa-exclamation-circle"></i> Full name is required</span>
+            </div>
+        </div>
+      	<div class="formline">
+        	<label for="Email" class="formlabel">Email <i class="fa fa-asterisk"></i></label>
+            <div class="formcontrol">
+            	<input type="text" id="Email">
+                <span class="validation" style="display: none;" id="valEmail"><i class="fa fa-exclamation-circle"></i> Email is required</span>
+            </div>
+        </div>
+        <div class="formline">
+        	<label for="Message" class="formlabel">Message <i class="fa fa-asterisk"></i></label>
+            <div class="formcontrol">
+            	<textarea id="Message"></textarea>
+                <span class="validation" style="display: none;" id="valMessage"><i class="fa fa-exclamation-circle"></i> Message is required</span>
+            </div>
+        </div>
+        <div class="formline">
+        	<label><input type="checkbox"> Subscribe for newsletter</label>
+        </div>
+        <div class="formline">
+        	<input type="submit" value="Send" class="button" id="submitEmail">
+        </div>
+      </div>
+      </div>
+      <div class="four columns">
+        <% include ../partials/workshops_side %>
+        <div class="panel boxed">
+			<h3>Participants</h3>
+            <div class="textcenter">
+            	<p><a href="http://www.imperial.ac.uk/" target="_blank"><img src="images/logo_imperial_college_london.png" alt="Imperial College London" class="responsive grayscale"></a></p>
+                <p><a href="http://www.uni-passau.de/en/" target="_blank"><img src="images/passau.png" alt="University of Passau" class="responsive grayscale"></a></p>
+                <p><a href="http://www.realeyesit.com/" target="_blank"><img src="images/realeyes.png" alt="Reale Eyes" class="responsive grayscale"></a></p>
+                <p><a href="http://playgen.com/" target="_blank"><img src="images/Playgen.png" alt="Playgen" class="responsive grayscale"></a></p>
+            </div>
+        </div>
+      	<div class="panel boxed">
+			<h3>Sponsors</h3>
+            <div class="textcenter">
+            <p><img src="images/eu-logo.png" alt="sponsors" class="responsive"><img src="images/horizon_20201.jpg" alt="sponsors" class="responsive"></p>
+            <p><small>Funding from the European Commision Horizon 2020 Programme.</small></p>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- container -->
+</section>
+
+<% include ../partials/footer %>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js">  </script>
+<script>
+    $(document).ready(function(){
+        var messageElement, fullnameElement, emailElement;
+        var valName = $("#valName");
+        var valEmail = $("#valEmail");
+        var valMessage = $("#valMessage");
+        $("#submitEmail").click(function(){
+            valName.hide(); valEmail.hide(); valMessage.hide();
+            messageElement=$("#Message").val();
+            fullnameElement=$("#Firstname").val();
+            emailElement=$("#Email").val();
+
+            if (messageElement.length > 0 && fullnameElement.length > 0 && emailElement.length > 0) {
+                $.post("/contact", {
+                    messageElement: messageElement,
+                    fullnameElement: fullnameElement,
+                    emailElement: emailElement
+                }, function (data) {
+                    debugger;
+                    if (data === 'done') {
+                        $("#Message").val('');
+                        $("#Firstname").val('');
+                        $("#Email").val('');
+                        alert("Email sent");
+                    }
+                });
+            } else
+            {
+                valName.show(); valEmail.show(); valMessage.show();
+            }
+        });
+    });
+</script>

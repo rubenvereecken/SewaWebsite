@@ -1,0 +1,282 @@
+<% include ../partials/head %>
+<% include ../partials/header %>
+
+<section>
+  <div class="container container-twelve">
+    <div class="row">
+      <div class="eight columns">
+      	<h2>Publications</h2>
+        <% if (adminUser != undefined && adminUser != null) { %>
+        <br>
+        <a href="#" class="button" id="create-publications">Create publications</a>
+        <br> <br>
+        <% } %>
+        <div class="panel publications noJustify">
+            <% if(publications == undefined || publications == null || publications.length == 0) { %>
+                <h4>Coming soon</h4>
+            <% } else { %>
+                <% for(var i=0; i<years.length; i++) { %>
+                    <h3><%= years[i] %></h3>
+                    <ul>
+                    <% for(var j=0; j<publications.length; j++) { %>
+                        <% if (publications[j].year == years[i]) { %>
+                            <li>
+                                <h4><%= publications[j].title %></h4>
+                                <p><%= publications[j].text %></p>
+                                <% if (publications[j].download != undefined && publications[j].download != null && publications[j].download.length > 0) { %>
+                                    <a href="<%= publications[j].download %>">[pdf]<i class="fa fa-file-pdf-o"></i></a>
+                                <% } %>
+                                <% if (publications[j].bibtex != undefined && publications[j].bibtex != null && publications[j].bibtex.length > 0) { %>
+                                    <a onclick="$('#<%=publications[j]._id%>_bibtex').toggle('')">[bibtex]<i class="fa fa-file-pdf-o"></i></a>
+                                <% } %>
+                                <% if (publications[j].endnote != undefined && publications[j].endnote != null && publications[j].endnote.length > 0) { %>
+                                    <a onclick="$('#<%=publications[j]._id%>_endnote').toggle('')">[endnote]<i class="fa fa-file-pdf-o"></i></a>
+                                <% } %>
+                                <% if (publications[j].bibtex != undefined && publications[j].bibtex != null && publications[j].bibtex.length > 0) { %>
+                                    <div class="reference" id="<%=publications[j]._id%>_bibtex" style="display: none;">
+                                        <div class="header">Bibtex reference <a onclick="$('#<%=publications[j]._id%>_bibtex').toggle('')">[hide]</a></div>
+                                        <div class="ref"><pre><%=publications[j].bibtex%></pre></div>
+                                    </div>
+                                <% } %>
+                                <% if (publications[j].endnote != undefined && publications[j].endnote != null && publications[j].endnote.length > 0) { %>
+                                    <div class="reference" id="<%=publications[j]._id%>_endnote" style="display: none;">
+                                        <div class="header">Endnote reference <a onclick="$('#<%=publications[j]._id%>_endnote').toggle('')">[hide]</a></div>
+                                        <div class="ref"><pre><%=publications[j].endnote%></pre></div>
+                                    </div>
+                                <% } %>
+
+                                <% if (adminUser) { %>
+                                    <br>
+                                    <a href="#" data-id="<%= publications[j]._id %>" class="button modifyPublicationsLink">Modify</a>
+                                    <a href="#" data-id="<%= publications[j]._id %>" class="button deletePublicationsLink">Delete</a>
+                                    <input type="hidden" id="<%= publications[j]._id %>_title" value="<%= publications[j].title %>" />
+                                    <input type="hidden" id="<%= publications[j]._id %>_text" value="<%= publications[j].text %>" />
+                                    <input type="hidden" id="<%= publications[j]._id %>_year" value="<%= publications[j].year %>" />
+                                    <input type="hidden" id="<%= publications[j]._id %>_bibtexvalue" value="<%= publications[j].bibtex %>" />
+                                    <input type="hidden" id="<%= publications[j]._id %>_endnotevalue" value="<%= publications[j].endnote %>" />
+                                    <input type="hidden" id="<%= publications[j]._id %>_order" value="<%= publications[j].order %>" />
+                                <% } %>
+                            </li>
+                        <% } %>
+                    <% } %>
+                    </ul>
+                    <% if (i < (years.length-1)) { %>
+                        <hr>
+                    <% } %>
+                <% } %>
+            <% } %>
+        </div>
+      </div>
+      <div class="four columns">
+        <%- (!!locals.sidebar)?sidebar.body:'' %>
+      </div>
+    </div>
+  </div>
+  <!-- container -->
+</section>
+
+<div id="dialog-form" title="Create/Edit publications">
+    <p class="validateTips"></p>
+
+    <form action="/publications-create" method="post" enctype="multipart/form-data">
+        <fieldset>
+            <label for="publicationstitle">Publication title</label>
+            <input type="text" name="publicationstitle" id="publicationstitle" class="text ui-widget-content ui-corner-all">
+            <label for="publicationdescription">Publication description</label>
+            <textarea name="publicationdescription" id="publicationdescription" class="text ui-widget-content ui-corner-all"></textarea>
+            <label for="publicationyear">Publication year</label>
+            <input type="text" name="publicationyear" id="publicationyear" class="text ui-widget-content ui-corner-all">
+            <label for="order">Order number</label>
+            <input type="text" name="order" id="order" value="0" class="text ui-widget-content ui-corner-all">
+            <label for="bibtexreference">Bibtex reference</label>
+            <textarea name="bibtexreference" id="bibtexreference" class="text ui-widget-content ui-corner-all"></textarea>
+            <label for="endnotereference">Endnote reference</label>
+            <textarea name="endnotereference" id="endnotereference" class="text ui-widget-content ui-corner-all"></textarea>
+            <div id="fileUploadContainer">
+                <label for="publicationfile">Download file (PDF)</label>
+                <input type="file" name="publicationfile" id="publicationfile" class="file ui-widget-content ui-corner-all">
+            </div>
+            <!-- Allow form submission with keyboard without duplicating the dialog button -->
+            <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+            <input type="hidden" name="publicationsid" id="publicationsid" value="">
+        </fieldset>
+    </form>
+</div>
+
+<% include ../partials/footer %>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var dialog, form,
+                publicationsid = $("#publicationsid"),
+                publicationstitle = $("#publicationstitle"),
+                publicationsdescription = $("#publicationdescription"),
+                publicationsyear = $("#publicationyear"),
+                publicationsfile = $("#publicationfile"),
+                bibtexreference = $("#bibtexreference"),
+                endnotereference = $("#endnotereference"),
+                order = $("#order"),
+                fileUploadContainer = $("#fileUploadContainer");
+
+                allFields = $( [] ).add( publicationstitle ).add( publicationsdescription ).add( publicationsyear ).add( publicationsfile ),
+                tips = $( ".validateTips" );
+
+        function updateTips( t ) {
+            tips
+                    .text( t )
+                    .addClass( "ui-state-highlight" );
+            setTimeout(function() {
+                tips.removeClass( "ui-state-highlight", 1500 );
+            }, 500 );
+        }
+
+        function checkLength( o, n, min, max ) {
+            if ( o.val().length > max || o.val().length < min ) {
+                o.addClass( "ui-state-error" );
+                updateTips( "Length of " + n + " must be between " +
+                min + " and " + max + "." );
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function checkRegexp( o, regexp, n ) {
+            if ( !( regexp.test( o.val() ) ) ) {
+                o.addClass( "ui-state-error" );
+                updateTips( n );
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function addPublications() {
+            var valid = true;
+            allFields.removeClass( "ui-state-error" );
+
+            valid = valid && checkLength( publicationstitle, "Publication title", 5, 150 );
+            valid = valid && checkLength( publicationsdescription, "Publication description", 5, 2000 );
+            valid = valid && checkRegexp( publicationsyear, /^[0-9]+$/, "Publication year only allow numbers" );
+            if ( valid ) {
+                loadingPopup();
+                form.ajaxSubmit({
+                    error: function(xhr) {
+                        $('#overlay').remove();
+                        alert('Error: ' + xhr.status);
+                    },
+
+                    success: function(response) {
+                        if (response == 'Done') {
+                            location.reload();
+                        } else {
+                            $('#overlay').remove();
+                            alert(data);
+                        }
+                    }
+                });
+                dialog.dialog( "close" );
+            }
+            //Very important line, it disable the page refresh.
+            return valid;
+
+            /*if ( valid ) {
+                // Do submit and refresh
+                $.ajax({
+                    type: "POST",
+                    url: '/publications-create',
+                    data: {
+                        'publicationId' : publicationsid.val(),
+                        'title' : publicationstitle.val(),
+                        'description' : publicationsdescription.val(),
+                        'year' : publicationsyear.val(),
+                        'file' : publicationsfile.val()
+                    },
+                    success: function(data){
+                        if (data == 'Done') {
+                            location.reload();
+                        } else {
+                            alert(data);
+                        }
+                    }
+                });
+
+                dialog.dialog( "close" );
+            }
+            return valid;    */
+        }
+
+        dialog = $( "#dialog-form" ).dialog({
+            autoOpen: false,
+            height: 600,
+            width: 600,
+            modal: true,
+            buttons: {
+                "Save": addPublications,
+                Cancel: function() {
+                    dialog.dialog( "close" );
+                }
+            },
+            close: function() {
+                form[ 0 ].reset();
+                allFields.removeClass( "ui-state-error" );
+            }
+        });
+
+        form = dialog.find( "form" ).on( "submit", function( event ) {
+            event.preventDefault();
+            addPublications();
+        });
+
+        $( "#create-publications" ).on( "click", function() {
+            fileUploadContainer.show();
+            $( "#publicationsid").val("");
+            $( "#publicationstitle").val('');
+            $( "#publicationdescription").val('');
+            $( "#publicationyear").val('');
+            $( "#bibtexreference").val('');
+            $( "#endnotereference").val('');
+            $( "#order").val('0');
+            dialog.dialog( "open" );
+            return false;
+        });
+
+        $("a.modifyPublicationsLink").on( "click", function() {
+            debugger;
+            fileUploadContainer.hide();
+            var publicationsid = $(this).attr("data-id");
+            $( "#publicationsid").val(publicationsid);
+            $( "#publicationstitle").val($("#" + publicationsid + "_title").val());
+            $( "#publicationdescription").val($("#" + publicationsid + "_text").val());
+            $( "#publicationyear").val($("#" + publicationsid + "_year").val());
+            $( "#bibtexreference").val($("#" + publicationsid + "_bibtexvalue").val());
+            $( "#endnotereference").val($("#" + publicationsid + "_endnotevalue").val());
+            $( "#order").val(($("#" + publicationsid + "_order").val() | '0'));
+            dialog.dialog( "open" );
+            return false;
+        });
+
+        $("a.deletePublicationsLink").on( "click", function() {
+            var publicationId = $(this).attr("data-id");
+            if (!confirm("Are you sure? This will delete this publication!"))
+                return false;
+
+            $.ajax({
+                type: "POST",
+                url: '/publications-delete',
+                data: {
+                    'publicationId' : publicationId
+                },
+                success: function(data){
+                    if (data == 'Done') {
+                        location.reload();
+                    } else {
+                        alert(data);
+                    }
+                }
+            });
+
+            return false;
+        });
+    });
+</script>

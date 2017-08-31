@@ -1,0 +1,11 @@
+/**
+ * Created with JetBrains WebStorm.
+ * User: MojoManyana
+ * Date: 18.12.14.
+ * Time: 16.03
+ * To change this template use File | Settings | File Templates.
+ */
+
+module.exports = {
+    url : process.env.DBURL || 'mongodb://root:Passw0rd1@ds019986.mlab.com:19986/sewa'
+};

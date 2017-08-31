@@ -1,0 +1,284 @@
+<% include ../partials/head %>
+<% include ../partials/header %>
+
+<section>
+  <div class="container container-twelve">
+    <!--<div class="row">
+      <div class="twelve columns">
+
+      </div>
+    </div>-->
+    <div class="row">
+      <div class="eight columns">
+      	<h2>Deliverables</h2>
+          <% if (adminUser != undefined && adminUser != null) { %>
+          <br>
+          <a href="#" class="button" id="create-deliverables">Create deliverables</a>
+          <br> <br>
+          <% } %>
+        <div class="panel publications noJustify">
+            <h3>First Review Meeting</h3>
+            <ul>
+                <% for(var z=0; z<deliverables.length; z++) { %>
+                <% if(deliverables[z].isFirstReviewMeeting != undefined && deliverables[z].isFirstReviewMeeting != null && deliverables[z].isFirstReviewMeeting == true) { %>
+                <li style="padding-bottom: 0 !important; ">
+                    <a target="_blank" href="<%= deliverables[z].download %>"><h6><%= deliverables[z].title %></h6></a>
+                    <p><%= deliverables[z].text %></p>
+                    <% if (adminUser) { %>
+                    <br>
+                    <a href="#" data-id="<%= deliverables[z]._id %>" class="button modifyDeliverablesLink">Modify</a>
+                    <a href="#" data-id="<%= deliverables[z]._id %>" class="button deleteDeliverablesLink">Delete</a>
+                    <input type="hidden" id="<%= deliverables[z]._id %>_title" value="<%= deliverables[z].title %>" />
+                    <input type="hidden" id="<%= deliverables[z]._id %>_text" value="<%= deliverables[z].text %>" />
+                    <input type="hidden" id="<%= deliverables[z]._id %>_isInternal" value="<%= deliverables[z].isInternal %>" />
+                    <input type="hidden" id="<%= deliverables[z]._id %>_isFirstReviewMeeting" value="<%= deliverables[z].isFirstReviewMeeting %>" />
+                    <input type="hidden" id="<%= deliverables[z]._id %>_order" value="<%= deliverables[z].order %>" />
+                    <% } %>
+                </li>
+                <% } %>
+                <% } %>
+            </ul>
+            <h3>Researches material</h3>
+            <% if(deliverables == undefined || deliverables == null || deliverables.length == 0) { %>
+            <h4>Coming soon</h4>
+            <% } else { %>
+            <ul>
+                <% for(var j=0; j<deliverables.length; j++) { %>
+                    <% if((deliverables[j].isInternal == undefined || deliverables[j].isInternal == null || deliverables[j].isInternal == false) &&
+                          (deliverables[j].isFirstReviewMeeting == undefined || deliverables[j].isFirstReviewMeeting == null || deliverables[j].isFirstReviewMeeting == false)) { %>
+                    <li>
+                        <h4><%= deliverables[j].title %></h4>
+                        <p><%= deliverables[j].text %></p>
+                        <% if (deliverables[j].download != undefined && deliverables[j].download != null && deliverables[j].download.length > 0) { %>
+                            <a target="_blank" href="<%= deliverables[j].download %>">Download File<i class="fa fa-file-pdf-o"></i></a>
+                        <% } %>
+                        <% if (adminUser) { %>
+                        <br>
+                        <a href="#" data-id="<%= deliverables[j]._id %>" class="button modifyDeliverablesLink">Modify</a>
+                        <a href="#" data-id="<%= deliverables[j]._id %>" class="button deleteDeliverablesLink">Delete</a>
+                        <input type="hidden" id="<%= deliverables[j]._id %>_title" value="<%= deliverables[j].title %>" />
+                        <input type="hidden" id="<%= deliverables[j]._id %>_text" value="<%= deliverables[j].text %>" />
+                        <input type="hidden" id="<%= deliverables[j]._id %>_isInternal" value="<%= false %>" />
+                        <input type="hidden" id="<%= deliverables[j]._id %>_isFirstReviewMeeting" value="<%= false %>" />
+                        <input type="hidden" id="<%= deliverables[j]._id %>_order" value="<%= deliverables[j].order %>" />
+                        <% } %>
+                    </li>
+                    <% } else { var hasInternalDeliverables = true; } %>
+                <% } %>
+            </ul>
+
+            <% if(hasInternalDeliverables != undefined && hasInternalDeliverables != null && hasInternalDeliverables == true && adminUser) { %>
+                <h3>Internal material</h3>
+                <ul>
+                <% for(var j=0; j<deliverables.length; j++) { %>
+                    <% if(deliverables[j].isInternal != undefined && deliverables[j].isInternal != null && deliverables[j].isInternal == true) { %>
+                        <li>
+                            <h4><%= deliverables[j].title %></h4>
+                            <p><%= deliverables[j].text %></p>
+                            <% if (deliverables[j].download != undefined && deliverables[j].download != null && deliverables[j].download.length > 0) { %>
+                            <a target="_blank" href="<%= deliverables[j].download %>">Download File<i class="fa fa-file-pdf-o"></i></a>
+                            <% } %>
+                            <% if (adminUser) { %>
+                            <br>
+                            <a href="#" data-id="<%= deliverables[j]._id %>" class="button modifyDeliverablesLink">Modify</a>
+                            <a href="#" data-id="<%= deliverables[j]._id %>" class="button deleteDeliverablesLink">Delete</a>
+                            <input type="hidden" id="<%= deliverables[j]._id %>_title" value="<%= deliverables[j].title %>" />
+                            <input type="hidden" id="<%= deliverables[j]._id %>_text" value="<%= deliverables[j].text %>" />
+                            <input type="hidden" id="<%= deliverables[j]._id %>_isInternal" value="<%= deliverables[j].isInternal %>" />
+                            <input type="hidden" id="<%= deliverables[j]._id %>_isFirstReviewMeeting" value="<%= deliverables[j].isFirstReviewMeeting %>" />
+                            <input type="hidden" id="<%= deliverables[j]._id %>_order" value="<%= deliverables[j].order %>" />
+                            <% } %>
+                        </li>
+                    <% } %>
+                <% } %>
+                </ul>
+            <% } %>
+
+            <% } %>
+        </div>
+      </div>
+      <div class="four columns">
+        <%- (!!locals.sidebar)?sidebar.body:'' %>
+      </div>
+    </div>
+  </div>
+  <!-- container -->
+</section>
+
+<div id="dialog-form" title="Create/Edit deliverables">
+    <p class="validateTips"></p>
+
+    <form action="/deliverables-create" method="post" enctype="multipart/form-data">
+        <fieldset>
+            <label for="deliverablestitle">Deliverable title</label>
+            <input type="text" name="deliverablestitle" id="deliverablestitle" class="text ui-widget-content ui-corner-all">
+            <label for="deliverabledescription">Deliverable description</label>
+            <textarea name="deliverabledescription" id="deliverabledescription" class="text ui-widget-content ui-corner-all"></textarea>
+            <label for="">Is internal deliverable?</label>
+            <input type="checkbox" name="isInternalDeliverable" id="isInternalDeliverable" class="checkbox ui-widget-content ui-corner-all" />
+            <label for="">Is First Review Meeting deliverable?</label>
+            <input type="checkbox" name="isFirstReviewDeliverable" id="isFirstReviewDeliverable" class="checkbox ui-widget-content ui-corner-all" />
+            <label for="order">Order number</label>
+            <input type="text" name="order" id="order" value="0" class="text ui-widget-content ui-corner-all">
+            <div id="fileUploadContainer">
+                <label for="deliverablefile">Download file</label>
+                <input type="file" name="deliverablefile" id="deliverablefile" class="file ui-widget-content ui-corner-all">
+            </div>
+            <!-- Allow form submission with keyboard without duplicating the dialog button -->
+            <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+            <input type="hidden" name="deliverablesid" id="deliverablesid" value="">
+        </fieldset>
+    </form>
+</div>
+
+<% include ../partials/footer %>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var dialog, form,
+                deliverablesid = $("#deliverablesid"),
+                deliverablestitle = $("#deliverablestitle"),
+                deliverablesdescription = $("#deliverabledescription"),
+                deliverablesfile = $("#deliverablefile"),
+                fileUploadContainer = $("#fileUploadContainer"),
+                order = $("#order"),
+                isInternalDeliverable = $("#isInternalDeliverable");
+                isFirstReviewDeliverable = $("#isFirstReviewDeliverable");
+
+        allFields = $( [] ).add( deliverablestitle ).add( deliverablesdescription ).add( deliverablesdescription ),
+                tips = $( ".validateTips" );
+
+        function updateTips( t ) {
+            tips
+                    .text( t )
+                    .addClass( "ui-state-highlight" );
+            setTimeout(function() {
+                tips.removeClass( "ui-state-highlight", 1500 );
+            }, 500 );
+        }
+
+        function checkLength( o, n, min, max ) {
+            if ( o.val().length > max || o.val().length < min ) {
+                o.addClass( "ui-state-error" );
+                updateTips( "Length of " + n + " must be between " +
+                min + " and " + max + "." );
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function checkRegexp( o, regexp, n ) {
+            if ( !( regexp.test( o.val() ) ) ) {
+                o.addClass( "ui-state-error" );
+                updateTips( n );
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function addDeliverables() {
+            var valid = true;
+            allFields.removeClass( "ui-state-error" );
+
+            valid = valid && checkLength( deliverablestitle, "Deliverable title", 5, 150 );
+            //valid = valid && checkLength( deliverablesdescription, "Deliverable description", 5, 500 );
+            if ( valid ) {
+                loadingPopup();
+                form.ajaxSubmit({
+                    error: function(xhr) {
+                        $('#overlay').remove();
+                        alert('Error: ' + xhr.status);
+                    },
+
+                    success: function(response) {
+                        if (response == 'Done') {
+                            location.reload();
+                        } else {
+                            $('#overlay').remove();
+                            alert(data);
+                        }
+                    }
+                });
+                dialog.dialog( "close" );
+            }
+            //Very important line, it disable the page refresh.
+            return valid;
+        }
+
+        dialog = $( "#dialog-form" ).dialog({
+            autoOpen: false,
+            height: 600,
+            width: 600,
+            modal: true,
+            buttons: {
+                "Save": addDeliverables,
+                Cancel: function() {
+                    dialog.dialog( "close" );
+                }
+            },
+            close: function() {
+                form[ 0 ].reset();
+                allFields.removeClass( "ui-state-error" );
+            }
+        });
+
+        form = dialog.find( "form" ).on( "submit", function( event ) {
+            event.preventDefault();
+            addDeliverables();
+        });
+
+        $( "#create-deliverables" ).on( "click", function() {
+            fileUploadContainer.show();
+            $( "#deliverablesid").val("");
+            $("#isInternalDeliverable").prop('checked', false);
+            $("#isFirstReviewDeliverable").prop('checked', false);
+            $("#order").val('0');
+            dialog.dialog( "open" );
+            return false;
+        });
+
+        $("a.modifyDeliverablesLink").on( "click", function() {
+            fileUploadContainer.hide();
+            var deliverablesid = $(this).attr("data-id");
+            $("#deliverablesid").val(deliverablesid);
+            $("#deliverablestitle").val($("#" + deliverablesid + "_title").val());
+            $("#deliverabledescription").val($("#" + deliverablesid + "_text").val());
+            $("#order").val(($("#" + deliverablesid + "_order").val() | '0'));
+            if ($("#" + deliverablesid + "_isInternal").val() == "true")
+                $("#isInternalDeliverable").prop('checked', true);
+            else
+                $("#isInternalDeliverable").prop('checked', false);
+            if ($("#" + deliverablesid + "_isFirstReviewMeeting").val() == "true")
+                $("#isFirstReviewDeliverable").prop('checked', true);
+            else
+                $("#isFirstReviewDeliverable").prop('checked', false);
+            dialog.dialog( "open" );
+            return false;
+        });
+
+        $("a.deleteDeliverablesLink").on( "click", function() {
+            var deliverableId = $(this).attr("data-id");
+            if (!confirm("Are you sure? This will delete this deliverable!"))
+                return false;
+
+            $.ajax({
+                type: "POST",
+                url: '/deliverables-delete',
+                data: {
+                    'deliverableId' : deliverableId
+                },
+                success: function(data){
+                    if (data == 'Done') {
+                        location.reload();
+                    } else {
+                        alert(data);
+                    }
+                }
+            });
+
+            return false;
+        });
+    });
+</script>

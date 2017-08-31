@@ -1,0 +1,71 @@
+<% include ../partials/head %>
+<% include ../partials/header %>
+
+<section>
+    <div class="container container-twelve">
+        <!--<div class="row">
+          <div class="twelve columns">
+
+          </div>
+        </div>-->
+        <div class="row">
+            <div class="twelve columns">
+                <h2>Workshops</h2>
+                <div class="panel news">
+                    <ul class="news-list">
+                        <% for(var i=0; i<workshops.length; i++) { %>
+                        <li>
+                            <h3><a href="#"><%= workshops[i].title %></a></h3>
+                            <strong><%= workshops[i].key %></strong>
+                            <br>
+                            <a href="/workshop/<%= workshops[i].key %>" data-id="<%= workshops[i].key %>" class="button modifyNewsLink">Modify</a>
+                            <a href="#" data-id="<%= workshops[i].key %>" class="button deleteNewsLink">Delete</a>
+                        </li>
+                        <% } %>
+                    </ul>
+                    <div class="paging textcenter">
+                        <ul>
+                            <% for(var i=1; i<=numberOfPages; i++) { %>
+                            <% if ((i-1) == currentPage) { %>
+                            <li><a class="active" href="/workshops?page=<%=i-1%>"><%=i%></a></li>
+                            <% } else { %>
+                            <li><a href="/workshops?page=<%=i-1%>"><%=i%></a></li>
+                            <% } %>
+                            <% } %>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- container -->
+</section>
+
+<% include ../partials/footer %>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("a.deleteNewsLink").on( "click", function() {
+            var key = $(this).attr("data-id");
+            if (!confirm("Are you sure? This will delete this workshop!"))
+                return false;
+
+            $.ajax({
+                type: "POST",
+                url: '/workshop-delete',
+                data: {
+                    'key' : key
+                },
+                success: function(data){
+                    if (data == 'Done') {
+                        location.reload();
+                    } else {
+                        alert(data);
+                    }
+                }
+            });
+
+            return false;
+        });
+    });
+</script>

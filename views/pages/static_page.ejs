@@ -1,0 +1,153 @@
+<% include ../partials/head.ejs %>
+<% include ../partials/header.ejs %>
+
+<section>
+    <div class="container container-twelve">
+        <!--<div class="row">
+          <div class="twelve columns">
+
+          </div>
+        </div>-->
+        <div class="row">
+            <div class="eight columns">
+<!--                <h2><%= page.title %></h2> //-->
+                <% if (adminUser) { %>
+                <br>
+                <a href="#" class="button" id="edit-pages" data-id="<%= page.key %>">Edit page</a>
+                <br> <br>
+                <% } %>
+                <div class="panel cms-content">
+                    <%- page.body %>
+                </div>
+            </div>
+            <div class="four columns">
+                <% if(locals.news) { %>
+                <div class="panel latest">
+                    <h3>Latest news</h3>
+                    <ul class="news-list">
+                    <% for(var i=0; i<news.length; i++) { %>
+                        <li>
+                            <h3><a href="/news"><%= news[i].title %></a></h3>
+                            <small class="date"><%= news[i].date %></small>
+                            <p><%- news[i].short %></p>
+                        </li>
+                    <% } %>
+                   </ul>
+               </div>
+               <% } %>
+                <%- (!!locals.sidebar)?sidebar.body:'' %>
+            </div>
+        </div>
+    </div>
+    <!-- container -->
+</section>
+<% if (adminUser) { %>
+<div id="dialog-form" title="Create/Edit page">
+    <p class="validateTips"></p>
+
+    <form>
+        <fieldset>
+            <label for="title">Page title</label>
+            <input type="text" name="title" id="title" class="text ui-widget-content ui-corner-all" value="<%= page.title %>" />
+            <label for="body">Page HTML</label>
+            <textarea name="body" id="body" class="text ui-widget-content ui-corner-all" style="min-height:300px"><%= page.body %></textarea>
+            <!-- Allow form submission with keyboard without duplicating the dialog button -->
+            <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+            <input type="hidden" id="pageuniquekey" value="<%= page.key %>">
+        </fieldset>
+    </form>
+</div>
+<% } %>
+<% include ../partials/footer %>
+<% if (adminUser) { %>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var dialog, form,
+                pageuniquekey = $( "#pageuniquekey" ),
+                title = $( "#title" ),
+                body = $( "#body" ),
+                allFields = $( [] ).add( title ).add( body ),
+                tips = $( ".validateTips" );
+
+        function updateTips( t ) {
+            tips
+                    .text( t )
+                    .addClass( "ui-state-highlight" );
+            setTimeout(function() {
+                tips.removeClass( "ui-state-highlight", 1500 );
+            }, 500 );
+        }
+
+        function checkLength( o, n, min, max ) {
+            if ( o.val().length > max || o.val().length < min ) {
+                o.addClass( "ui-state-error" );
+                updateTips( "Length of " + n + " must be between " +
+                min + " and " + max + "." );
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function updatePages() {
+            var valid = true;
+            allFields.removeClass( "ui-state-error" );
+
+            valid = valid && checkLength( title, "Page title", 5, 150 );
+            valid = valid && checkLength( body, "Page HTML", 5, 100000 );
+
+            if ( valid ) {
+                // Do submit and refresh
+                loadingPopup();
+                $.ajax({
+                    type: "POST",
+                    url: '/staticpage-update',
+                    data: {
+                        'key' : pageuniquekey.val(),
+                        'title' : title.val(),
+                        'body' : body.val()
+                    },
+                    success: function(data){
+                        if (data == 'Done') {
+                            location.reload();
+                        } else {
+                            $('#overlay').remove();
+                            alert(data);
+                        }
+                    }
+                });
+
+                dialog.dialog( "close" );
+            }
+            return valid;
+        }
+
+        dialog = $( "#dialog-form" ).dialog({
+            autoOpen: false,
+            height: "600",
+            width: "90%",
+            modal: true,
+            buttons: {
+                "Save": updatePages,
+                Cancel: function() {
+                    dialog.dialog( "close" );
+                }
+            },
+            close: function() {
+                form[ 0 ].reset();
+                allFields.removeClass( "ui-state-error" );
+            }
+        });
+
+        form = dialog.find( "form" ).on( "submit", function( event ) {
+            event.preventDefault();
+            updatePages();
+        });
+
+        $( "#edit-pages" ).on( "click", function() {
+            dialog.dialog( "open" );
+            return false;
+        });
+    });
+</script>
+<% } %>

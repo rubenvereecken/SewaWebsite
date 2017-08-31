@@ -1,0 +1,30 @@
+<header class="add-bottom">
+  <div class="container container-twelve">
+    <div class="two columns logo">
+      <h1><a href="/"><img src="/images/sewa-logo.png" alt="sewa"></a></h1>
+    </div>
+    <div class="ten columns">
+      <ul class="topMenu">
+            <li><a href="/" class="<%= pageName == 'Home' ? 'active' : '' %>">Home</a></li>
+            <li><a href="/description" class="<%= pageName == 'Description' ? 'active' : '' %>">Description</a></li>
+            <li><a href="/publications" class="<%= pageName == 'Publications' ? 'active' : '' %>">Publications</a></li>
+            <li><a href="/public_dissemination" class="<%= pageName == 'Dissemination' ? 'active' : '' %>">Dissemination</a></li>
+            <li><a href="/resources" class="<%= pageName == 'Resources' ? 'active' : '' %>">Resources</a></li>
+            <li><a href="/deliverables" class="<%= pageName == 'Deliverables' ? 'active' : '' %>">Deliverables</a></li>
+            <li><a href="/participants" class="<%= pageName == 'Participants' ? 'active' : '' %>">Participants</a></li>
+          <% if (currentrequest.isAuthenticated() && currentrequest.user.isAdmin) { %>
+            <li style="display: none;"><a href="/workshops" class="<%= pageName == 'Workshops' ? 'active' : '' %>">Workshops</a></li>
+            <li><a href="/news" class="<%= pageName == 'News' ? 'active' : '' %>">News</a></li>
+            <li><a href="/sidebar" class="<%= pageName == 'Sidebar' ? 'active' : '' %>">Sidebar</a></li>
+          <% } %>
+      </ul>
+      <ul class="topMenu pull-right">
+          <% if (currentrequest.isAuthenticated() && currentrequest.user.isAdmin) { %>
+            <li><a href="/logout" class="">Log out</a></li>
+          <% } else { %>
+            <li><a href="/login" class="">Log in</a></li>
+          <% } %>
+      </ul>
+    </div>
+  </div>
+</header>

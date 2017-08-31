@@ -1,0 +1,279 @@
+<% include ../partials/head %>
+<% include ../partials/header %>
+
+<section>
+  <div class="container container-twelve">
+    <div class="row">
+      <div class="eight columns">
+      	<h2>Resources</h2>
+        <% if (adminUser != undefined && adminUser != null) { %>
+        <br>
+        <a href="#" class="button" id="create-resources">Create resources</a>
+        <br> <br>
+        <% } %>
+        <div class="panel publications noJustify">
+          <h3>Datasets</h3>
+            <% if(dataSet == undefined || dataSet == null || dataSet.length == 0) { %>
+                <h4>Coming soon</h4>
+                <% } else { %>
+                <ul>
+                    <% for(var j=0; j<dataSet.length; j++) { %>
+                    <li>
+                        <h4><%= dataSet[j].title %></h4>
+                        <p><%- dataSet[j].text %></p>
+                        <% if (dataSet[j].download != undefined && dataSet[j].download != null && dataSet[j].download.length > 0) { %>
+                            <a href="<%= dataSet[j].download %>">Download File<i class="fa fa-file-pdf-o"></i></a>
+                        <% } %>
+                        <% if (adminUser) { %>
+                        <br>
+                        <a href="#" data-id="<%= dataSet[j]._id %>" class="button modifyResourcesLink">Modify</a>
+                        <a href="#" data-id="<%= dataSet[j]._id %>" class="button deleteResourcesLink">Delete</a>
+                        <input type="hidden" id="<%= dataSet[j]._id %>_title" value="<%= dataSet[j].title %>" />
+                        <input type="hidden" id="<%= dataSet[j]._id %>_type" value="<%= dataSet[j].type %>" />
+                        <input type="hidden" id="<%= dataSet[j]._id %>_text" value="<%= dataSet[j].text %>" />
+                        <% } %>
+                    </li>
+                    <% } %>
+                </ul>
+            <% } %>
+          <hr>
+          <h3>Tools</h3>
+            <% if(tools == undefined || tools == null || tools.length == 0) { %>
+            <h4>Coming soon</h4>
+            <% } else { %>
+                <ul>
+                    <% for(var j=0; j<tools.length; j++) { %>
+                    <li>
+                        <h4><%= tools[j].title %></h4>
+                        <p><%- tools[j].text %></p>
+                        <% if (tools[j].download != undefined && tools[j].download != null && tools[j].download.length > 0) { %>
+                            <a href="<%= tools[j].download %>">Download File<i class="fa fa-file-pdf-o"></i></a>
+                        <% } %>
+                        <% if (adminUser) { %>
+                        <br>
+                        <a href="#" data-id="<%= tools[j]._id %>" class="button modifyResourcesLink">Modify</a>
+                        <a href="#" data-id="<%= tools[j]._id %>" class="button deleteResourcesLink">Delete</a>
+                        <input type="hidden" id="<%= tools[j]._id %>_title" value="<%= tools[j].title %>" />
+                        <input type="hidden" id="<%= tools[j]._id %>_type" value="<%= tools[j].type %>" />
+                        <input type="hidden" id="<%= tools[j]._id %>_text" value="<%= tools[j].text %>" />
+                        <% } %>
+                    </li>
+                    <% } %>
+                </ul>
+            <% } %>
+        </div>
+      </div>
+      <div class="four columns">
+        <%- (!!locals.sidebar)?sidebar.body:'' %>
+      </div>
+    </div>
+  </div>
+  <!-- container -->
+</section>
+
+<div id="dialog-form" title="Create/Edit resources">
+    <p class="validateTips"></p>
+
+    <form action="/resources-create" method="post" enctype="multipart/form-data">
+        <fieldset>
+            <label for="resourcestitle">Resource title</label>
+            <input type="text" name="resourcestitle" id="resourcestitle" class="text ui-widget-content ui-corner-all">
+            <label for="resourcedescription">Resource description</label>
+            <textarea name="resourcedescription" id="resourcedescription" class="text ui-widget-content ui-corner-all"></textarea>
+
+            <input type = "radio"
+                   name = "resourcetype"
+                   id = "typeDataset" checked="checked"
+                   value = "1" class="radio ui-widget-content ui-corner-all"/>
+            <label for = "typeDataset">Dataset</label>
+
+            <input type = "radio"
+                   name = "resourcetype"
+                   id = "typeTool"
+                   value = "2" class="radio ui-widget-content ui-corner-all"/>
+            <label for = "typeTool">Tool</label>
+            <br>
+            <div id="fileUploadContainer">
+                <label for="resourcefile">Download file</label>
+                <input type="file" name="resourcefile" id="resourcefile" class="file ui-widget-content ui-corner-all">
+            </div>
+            <!-- Allow form submission with keyboard without duplicating the dialog button -->
+            <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+            <input type="hidden" name="resourcesid" id="resourcesid" value="">
+        </fieldset>
+    </form>
+</div>
+
+<% include ../partials/footer %>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var dialog, form,
+                resourcesid = $("#resourcesid"),
+                resourcestitle = $("#resourcestitle"),
+                resourcesdescription = $("#resourcedescription"),
+                resourcestype = $("#resourcetype"),
+                resourcesfile = $("#resourcefile"),
+                fileUploadContainer = $("#fileUploadContainer");
+
+        allFields = $( [] ).add( resourcestitle ).add( resourcesdescription ).add( resourcestype ).add( resourcesfile ),
+                tips = $( ".validateTips" );
+
+        function updateTips( t ) {
+            tips
+                    .text( t )
+                    .addClass( "ui-state-highlight" );
+            setTimeout(function() {
+                tips.removeClass( "ui-state-highlight", 1500 );
+            }, 500 );
+        }
+
+        function checkLength( o, n, min, max ) {
+            if ( o.val().length > max || o.val().length < min ) {
+                o.addClass( "ui-state-error" );
+                updateTips( "Length of " + n + " must be between " +
+                min + " and " + max + "." );
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function checkRegexp( o, regexp, n ) {
+            if ( !( regexp.test( o.val() ) ) ) {
+                o.addClass( "ui-state-error" );
+                updateTips( n );
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function addResources() {
+            var valid = true;
+            allFields.removeClass( "ui-state-error" );
+
+            valid = valid && checkLength( resourcestitle, "Resource title", 5, 150 );
+            valid = valid && checkLength( resourcesdescription, "Resource description", 5, 2000 );
+            if ( valid ) {
+                loadingPopup();
+                form.ajaxSubmit({
+                    error: function(xhr) {
+                        $('#overlay').remove();
+                        alert('Error: ' + xhr.status);
+                    },
+
+                    success: function(response) {
+                        if (response == 'Done') {
+                            location.reload();
+                        } else {
+                            $('#overlay').remove();
+                            alert(data);
+                        }
+                    }
+                });
+                dialog.dialog( "close" );
+            }
+            //Very important line, it disable the page refresh.
+            return valid;
+
+            /*if ( valid ) {
+             // Do submit and refresh
+             $.ajax({
+             type: "POST",
+             url: '/publications-create',
+             data: {
+             'publicationId' : publicationsid.val(),
+             'title' : publicationstitle.val(),
+             'description' : publicationsdescription.val(),
+             'year' : publicationsyear.val(),
+             'file' : publicationsfile.val()
+             },
+             success: function(data){
+             if (data == 'Done') {
+             location.reload();
+             } else {
+             alert(data);
+             }
+             }
+             });
+
+             dialog.dialog( "close" );
+             }
+             return valid;    */
+        }
+
+        dialog = $( "#dialog-form" ).dialog({
+            autoOpen: false,
+            height: 600,
+            width: 600,
+            modal: true,
+            buttons: {
+                "Save": addResources,
+                Cancel: function() {
+                    dialog.dialog( "close" );
+                }
+            },
+            close: function() {
+                form[ 0 ].reset();
+                allFields.removeClass( "ui-state-error" );
+            }
+        });
+
+        form = dialog.find( "form" ).on( "submit", function( event ) {
+            event.preventDefault();
+            addResources();
+        });
+
+        $( "#create-resources" ).on( "click", function() {
+            fileUploadContainer.show();
+            $( "#resourcesid").val("");
+            dialog.dialog( "open" );
+            return false;
+        });
+
+        $("a.modifyResourcesLink").on( "click", function() {
+            fileUploadContainer.hide();
+            var resourcesid = $(this).attr("data-id");
+            $( "#resourcesid").val(resourcesid);
+            $( "#resourcestitle").val($("#" + resourcesid + "_title").val());
+            $( "#resourcedescription").val($("#" + resourcesid + "_text").val());
+
+            var intVal = parseInt($("#" + resourcesid + "_type").val());
+            if (intVal == 1) {
+                $("#typeDataset").prop('checked', true);
+                $("#typeTool").prop('checked', false);
+            }
+            else if (intVal == 2) {
+                $("#typeTool").prop('checked', true);
+                $("#typeDataset").prop('checked', false);
+            }
+
+            dialog.dialog( "open" );
+            return false;
+        });
+
+        $("a.deleteResourcesLink").on( "click", function() {
+            var resourceId = $(this).attr("data-id");
+            if (!confirm("Are you sure? This will delete this resource!"))
+                return false;
+
+            $.ajax({
+                type: "POST",
+                url: '/resources-delete',
+                data: {
+                    'resourceId' : resourceId
+                },
+                success: function(data){
+                    if (data == 'Done') {
+                        location.reload();
+                    } else {
+                        alert(data);
+                    }
+                }
+            });
+
+            return false;
+        });
+    });
+</script>

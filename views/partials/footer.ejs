@@ -1,0 +1,37 @@
+
+    <footer>
+      <div class="container container-twelve">
+      	<div class="six columns">
+            <a href="https://www.facebook.com/sewaprojecteu"><img src="/images/facebook-icon.jpg" alt="Sewa project on Facebook"></a>
+            <!--<a href="https://www.facebook.com/sewaprojecteu"><img src="/images/youtube-icon.png" alt="Youtube"></a> -->
+            <a href="https://twitter.com/sewaproject"><img src="/images/twitter-icon.png" alt="Sewa project on Twitter"></a>
+        </div>
+<!--        <div class="six columns textright"> <small>Copyright information &copy;2014 | <a href="#">Legal</a> | <a href="#">Disclaimer</a></small> </div>//-->
+      </div>
+    </footer>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+    <!--<script src="scripts/jquery.fractionslider.min.js"></script>-->
+    <script type="text/javascript">
+        //jQuery(window).load(function(){
+        //  $('.slider').fractionSlider();
+        //});
+
+        var loadingPopup = function() {
+            // add the overlay with loading image to the page
+            var over = '<div id="overlay">' +
+                    '<img id="loading" src="../../images/ajax-loader.gif">' +
+                    '</div>';
+            $(over).appendTo('body');
+
+            // hit escape to close the overlay
+            $(document).keyup(function(e) {
+                if (e.which === 27) {
+                    $('#overlay').remove();
+                }
+            });
+        };
+
+    </script>
+    </body>
+</html>

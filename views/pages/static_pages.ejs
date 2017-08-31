@@ -1,0 +1,45 @@
+<% include ../partials/head %>
+<% include ../partials/header %>
+
+<section>
+    <div class="container container-twelve">
+        <!--<div class="row">
+          <div class="twelve columns">
+
+          </div>
+        </div>-->
+        <div class="row">
+            <div class="twelve columns">
+                <h2>Static pages</h2>
+                <div class="panel news">
+                    <ul class="news-list">
+                        <% for(var i=0; i<static_pages.length; i++) { %>
+                        <li>
+                            <h3><a href="#"><%= static_pages[i].title %></a></h3>
+                            <strong><%= static_pages[i].key %></strong>
+                            <br>
+                            <a href="/<%= static_pages[i].key %>" data-id="<%= static_pages[i].key %>" class="button modifyNewsLink">Modify</a>
+                            <!--<a href="#" data-id="<%= static_pages[i].key %>" class="button deleteNewsLink">Delete</a>//-->
+                        </li>
+                        <% } %>
+                    </ul>
+                    <div class="paging textcenter">
+                        <ul>
+                            <% for(var i=1; i<=numberOfPages; i++) { %>
+                            <% if ((i-1) == currentPage) { %>
+                            <li><a class="active" href="/static_pages?page=<%=i-1%>"><%=i%></a></li>
+                            <% } else { %>
+                            <li><a href="/static_pages?page=<%=i-1%>"><%=i%></a></li>
+                            <% } %>
+                            <% } %>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- container -->
+</section>
+
+<% include ../partials/footer %>
+
