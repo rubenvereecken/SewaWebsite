@@ -21,6 +21,8 @@ function uploadFile(file, filename) {
     fstream.on('close', function () {
         console.log(`Uploaded ${filename}`);
     });
+    // ...
+    return '/files/' + download;
 }
 
 module.exports = {

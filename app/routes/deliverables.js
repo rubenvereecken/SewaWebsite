@@ -53,7 +53,7 @@ router.post('/create', m.isLoggedInAdminOrDeliverableEditor, function(req, res) 
 
     });
     req.busboy.on('file', function (fieldname, file, filename) {
-        uploadFile(file, filename)
+        download = uploadFile(file, filename);
     });
     req.busboy.on('finish', function () {
         if (deliverableId == undefined || deliverableId == null || deliverableId == "") {

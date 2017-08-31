@@ -51,7 +51,7 @@ router.post('/create', m.isLoggedInAdmin, function(req, res) {
             resourceId = val;
     });
     req.busboy.on('file', function (fieldname, file, filename) {
-        uploadFile(file, filename)
+        download = uploadFile(file, filename);
     });
     req.busboy.on('finish', function () {
         if (resourceId == undefined || resourceId == null || resourceId == "") {

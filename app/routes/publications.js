@@ -63,7 +63,7 @@ router.post('/create', m.isLoggedInAdmin, function(req, res) {
             order = val;
     });
     req.busboy.on('file', function (fieldname, file, filename) {
-        uploadFile(file, filename)
+        download = uploadFile(file, filename)
     });
     req.busboy.on('finish', function () {
         if (publicationId == undefined || publicationId == null || publicationId == "") {
