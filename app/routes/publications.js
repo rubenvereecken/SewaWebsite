@@ -5,7 +5,7 @@ var fs               = require('fs');
 const Router   = require('express').Router;
 const config   = require('../../config');
 const m = require('../middleware')
-const { GuidCreate } = require('../common')
+const { GuidCreate, uploadFile } = require('../common')
 
 const StaticPages      = require('../models/static_pages');
 const Publications     = require('../models/publications');
@@ -63,14 +63,7 @@ router.post('/create', m.isLoggedInAdmin, function(req, res) {
             order = val;
     });
     req.busboy.on('file', function (fieldname, file, filename) {
-        download = GuidCreate() + path.extname(filename);
-        filepath = path.join(config.filepath, download)
-        console.log(`Uploading ${filename} to ${filepath}`);
-        fstream = fs.createWriteStream(filepath);
-        file.pipe(fstream);
-        fstream.on('close', function () {
-            console.log(`Uploaded ${filename}`);
-        });
+        uploadFile(file, filename)
     });
     req.busboy.on('finish', function () {
         if (publicationId == undefined || publicationId == null || publicationId == "") {
