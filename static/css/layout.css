@@ -1,0 +1,380 @@
+/* 
+* Skeleton V1.0.2
+* Copyright 2011, Dave Gamache
+* www.getskeleton.com
+* Free to use under the MIT license.
+* http://www.opensource.org/licenses/mit-license.php
+* 5/20/2011
+*/
+/* Colors
+==================================================
+color 1: #c0392b;
+color 2: #FD5;
+*/
+
+/* Table of Content
+==================================================
+	#Site Styles
+	#Page Styles
+	#Media Queries
+	#Font-Face */
+	
+/* #Site Styles
+================================================== */
+header {
+	padding: 0;
+	background-color: #fbfcfc;
+	border-bottom: 1px solid #eee;
+}
+header .logo {
+	padding: 20px 0 10px;
+}
+header .logo img {
+	max-width: 100%;
+}
+header h1 {
+	color: #800000;
+	/*height: 80px;*/
+	line-height: 1em;
+	margin-bottom: 0;
+}
+header h5 {
+	color: #FD5;
+}
+footer {
+	background-color: #ffffff;
+	color: #888;
+	padding: 30px 0;
+	border-top: 4px solid #800000;
+}
+.grey {
+	background-color: #ddd;
+}
+img.responsive {
+	max-width: 100%;
+}
+.boxed {
+	padding: 15px;
+	border: 1px solid #ddd;
+}
+.boxed a {
+	color: #000;
+}
+.boxed a.button {
+	color: #fff;
+}
+.boxed a.button:hover {
+	color: #000;
+	text-shadow: 0 1px #fff;
+}
+
+.boxed h3
+{
+    margin-bottom:16px;
+}
+
+.boxed hr {
+	border-color: #aaa;
+	border-top-width: 1px;
+	margin: 10px 0px;
+}
+.textleft {
+	text-align: left;
+}
+.textright {
+	text-align: right;
+}
+.textcenter {
+	text-align: center;
+}
+.pull-left {
+	float: left;
+}
+.pull-right {
+	float: right;
+}
+ul.topMenu {
+	margin: 0;
+	padding: 0;
+	/*background-color: rgba(0, 0, 0, 0.2);
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	border-top: 2px solid rgba(0, 0, 0, 0.2)*/
+}
+ul.topMenu li {
+    float: left;
+	display: inline-block;
+	margin: 0;
+	/*border-left: 1px solid rgba(255, 255, 255, 0.1);*/
+}
+ul.topMenu li:last-child {
+	/*border-right: 1px solid rgba(255, 255, 255, 0.1);*/
+}
+ul.topMenu li a {
+	display: block;
+	padding: 10px;
+	color: #666;
+	border-bottom: 3px solid #fbfcfc;
+}
+@media only screen and (min-width: 768px) and (max-width: 959px) {
+	ul.topMenu li a {
+		height: 55px;
+		line-height: 15px;
+		padding: 40px 2px 2px;
+		font-size: 13px;
+		max-width: 85px;
+		vertical-align: middle;
+		text-align: center;
+	}
+}
+@media only screen and (min-width: 960px) {
+	ul.topMenu li a {
+		height: 56px;
+		line-height: 15px;
+		padding: 52px 8px 5px;
+		max-width: 86px;
+		vertical-align: middle;
+		text-align: center;
+	}
+}
+ul.topMenu li a:hover,
+ul.topMenu li a:active,
+ul.topMenu li a.active {
+	color: #333;
+	text-decoration: none;
+}
+ul.topMenu li a:hover {
+	color: #800000;
+	background-color: rgba(0, 0, 0, 0.02);
+	border-color: #FBDF61;
+}
+ul.topMenu li a:active,
+ul.topMenu li a.active {
+	/*background-color: rgba(0, 0, 0, 0.05);*/
+	border-color: #800000;
+}
+ul.topMenu span.badge {
+	display: inline-block;
+	line-height: 18px;
+	height: 18px;
+	min-width: 18px;
+	-moz-border-radius: 9px;
+	-webkit-border-radius: 9px;
+	border-radius: 9px;
+	background-color: #FD5;
+	color: #333;
+	text-align: center;
+	font-weight: bold;
+	font-size: 12px;
+}
+.panel {
+	margin-bottom: 15px;
+    text-align: justify;
+    background-color: #fbfcfc;
+}
+
+/* Custom forms
+================================================== */
+.formgroup {
+	padding: 0 0 20px;
+}
+.formgroup.boxed {
+	padding: 20px;
+}
+.boxed input[type="text"],
+.boxed input[type="password"],
+.boxed input[type="email"],
+.boxed input[type="search"],
+.boxed textarea,
+.boxed select {
+	border-color: transparent;
+}
+.formline {
+	margin-bottom: 10px;
+}
+@media only screen and (min-width: 768px) {
+	.formline {
+		padding-left: 170px;
+	}
+	.formline.full {
+		padding-left: 0;
+	}
+}
+
+.formline:last-child {
+	margin-bottom: 0;
+}
+.formline label {
+	display: inline-block;
+	vertical-align: middle;
+	line-height: 16px;
+	padding: 7px 0;
+}
+.formline .formlabel {
+	vertical-align: middle;
+}
+@media only screen and (min-width: 768px) {
+	.formline .formlabel {
+		width: 160px;
+		float: left;
+		margin-left: -170px;
+	}
+}
+.formline .formcontrol {
+	display: inline-block;
+	vertical-align: middle;
+	width: 100%;
+}
+.formcontrol input,
+.formcontrol select,
+.formline .button {
+	margin-bottom: 0;
+	display: inline-block;
+	box-sizing: border-box;
+}
+.formcontrol textarea {
+	margin-bottom: 0;
+	display: block;
+	width: 100%;
+	box-sizing: border-box;
+}
+.formline .validation {
+	display: inline;
+	vertical-align: middle;
+	line-height: 16px;
+	padding: 7px 0;
+	font-size: 85%;
+	color: #c0392b;
+	text-indent: 5px;
+	white-space: nowrap;
+}
+label .fa-asterisk {
+	color: #c0392b;
+	font-size: 70%;
+	vertical-align: top;
+}
+
+.news-list {
+    margin-bottom: 0 !important;
+}
+
+.news-list li {
+	border-bottom: 1px solid #eee;
+}
+.publications li {
+	border-bottom: 1px solid #eee;
+	padding-bottom: 10px;
+}
+.news-list h3 {
+	margin-bottom: 0;
+}
+.news-list .date,
+.publications .date {
+	color: #888;
+}
+.news-list li p,
+.publications li p {
+	font-size: 0.9em;
+	line-height: 1.4em;
+}
+
+.latest {
+    padding: 15px;
+    border: 1px solid #ddd;
+}
+
+.latest h3 {
+    margin-bottom:16px;
+}
+
+.latest .news-list li {
+	margin-bottom: 5px;
+}
+.latest .news-list h3 {
+	font-size: 14px;
+	line-height: 1em;
+    margin-bottom:0px;
+}
+.latest .news-list li p {
+	margin-bottom: 5px;
+}
+.paging {
+	margin: 20px 0;
+}
+.paging ul li {
+	display: inline-block;
+}
+.paging ul li a,
+.paging ul li span {
+	display: block;
+	padding: 4px 6px;
+	color: #fff;
+	background-color: #800000;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+.paging ul li a:hover {
+	background-color: #FBDF61;
+	text-decoration: none;
+}
+.paging ul li a.active,
+.paging ul li span.active {
+	background-color: #FBDF61;
+	color: #000;
+}
+.paging ul li a.disabled,
+.paging ul li a.disabled:hover {
+	background-color: #800000;
+	color: #bbb;
+	cursor: default;
+}
+
+.question { font-style: italic; }
+
+/* #Page Styles
+================================================== */
+
+/* #Media Queries
+================================================== */
+	
+	/* iPad Portrait/Browser */
+	@media only screen and (min-width: 768px) and (max-width: 991px) {}
+	
+	/* Mobile/Browser */
+	@media only screen and (max-width: 767px) {}
+	
+	/* Mobile Landscape/Browser */
+	@media only screen and (min-width: 480px) and (max-width: 767px) {}
+	
+	/* Anything smaller than standard 960 */
+	@media only screen and (max-width: 959px) {}
+	
+	/* iPad Portrait Only */
+	@media only screen and (min-width: 768px) and (max-width: 991px) and (max-device-width: 1000px) {}
+	
+	/* Mobile Only */
+	@media only screen and (max-width: 767px) and (max-device-width: 1000px) {}
+	
+	/* Mobile Landscape Only */
+	@media only screen and (min-width: 480px) and (max-width: 767px) and (max-device-width: 1000px) {}
+	
+
+/* #Font-Face
+================================================== */
+/* 	This is the proper syntax for an @font-face file 
+		Just create a "fonts" folder at the root, 
+		copy your FontName into code below and remove
+		comment brackets */
+		
+/*	@font-face {
+	    font-family: 'FontName';
+	    src: url('../fonts/FontName.eot');
+	    src: url('../fonts/FontName.eot?iefix') format('eot'),
+	         url('../fonts/FontName.woff') format('woff'),
+	         url('../fonts/FontName.ttf') format('truetype'),
+	         url('../fonts/FontName.svg#webfontZam02nTh') format('svg');
+	    font-weight: normal;
+	    font-style: normal; }
+*/

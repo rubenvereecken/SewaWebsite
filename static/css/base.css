@@ -1,0 +1,527 @@
+/*
+* Skeleton V1.0.2
+* Copyright 2011, Dave Gamache
+* www.getskeleton.com
+* Free to use under the MIT license.
+* http://www.opensource.org/licenses/mit-license.php
+* 5/20/2011
+*/
+
+
+/* Table of Content
+==================================================
+	#Reset & Basics
+	#Basic Styles
+	#Site Styles
+	#Typography
+	#Links
+	#Lists
+	#Images
+	#Buttons
+	#Tabs
+	#Forms
+	#Misc */
+
+
+/* #Reset & Basics (Inspired by E. Meyers)
+================================================== */
+	html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+		margin: 0;
+		padding: 0;
+		border: 0;
+		font-size: 100%;
+		font: inherit;
+		vertical-align: baseline; }
+	article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+		display: block; }
+	body {
+		line-height: 1; }
+	ol, ul {
+		list-style: none; }
+	blockquote, q {
+		quotes: none; }
+	blockquote:before, blockquote:after,
+	q:before, q:after {
+		content: '';
+		content: none; }
+	table {
+		border-collapse: collapse;
+		border-spacing: 0; }
+
+
+/* #Basic Styles
+================================================== */
+	body {
+		background: #fff;
+		font: 14px/21px Arial, sans-serif;
+		color: #444;
+		-webkit-font-smoothing: antialiased; /* Fix for webkit rendering */
+		-webkit-text-size-adjust: none;
+ }
+
+    html, body {
+        height: 100%;
+    }
+
+/* #Typography
+================================================== */
+	h1, h2, h3, h4, h5, h6 {
+		color: #800000;
+		font-family: Arial, sans-serif;
+		font-weight: normal; }
+	h1 a, h2 a, h3 a, h4 a, h5 a, h6 a { font-weight: inherit; }
+	h1 { font-size: 46px; line-height: 50px; margin-bottom: 14px;}
+	h2 { font-size: 28px; line-height: 34px; margin-bottom: 15px; }
+	h3 { font-size: 21px; line-height: 30px; margin-bottom: 10px; }
+	h4 { font-size: 18px; line-height: 24px; margin-bottom: 5px; }
+	h5 { font-size: 17px; line-height: 24px; }
+	h6 { font-size: 14px; line-height: 21px; }
+	.subheader { color: #777; }
+
+  .row .columns h2 {
+      /* Not needed anymore since cms-content fix */
+      /* margin-top:10px; */
+      border-bottom: 2px solid #FBDF61;
+  }
+
+	p { margin: 0 0 10px 0; }
+	p img { margin: 0; }
+	p.lead { font-size: 21px; line-height: 27px; color: #777;  }
+
+	em { font-style: italic; }
+	strong { font-weight: bold; color: #333; }
+	small { font-size: 80%; }
+
+/*	Blockquotes  */
+	blockquote, blockquote p { font-size: 17px; line-height: 24px; color: #777; font-style: italic; }
+	blockquote { margin: 0 0 20px; padding: 9px 20px 0 19px; border-left: 1px solid #ddd; }
+	blockquote cite { display: block; font-size: 12px; color: #555; }
+	blockquote cite:before { content: "\2014 \0020"; }
+	blockquote cite a, blockquote cite a:visited, blockquote cite a:visited { color: #555; }
+
+	hr { border: solid #ddd; border-width: 1px 0 0; clear: both; margin: 10px 0; height: 0; }
+
+
+/* #Links
+================================================== */
+	a, a:visited { color: #800000; text-decoration: none; outline: 0; }
+	a:hover, a:focus { color: #000; text-decoration: underline; }
+	p a, p a:visited { line-height: inherit; }
+
+
+/* #Lists
+================================================== */
+	ul, ol { margin-bottom: 20px; }
+	ul { list-style: none outside; }
+	ol { list-style: decimal; }
+	ol, ul.square, ul.circle, ul.disc { margin-left: 30px; }
+	ul.square { list-style: square outside; }
+	ul.circle { list-style: circle outside; }
+	ul.disc { list-style: disc outside; }
+	ul ul, ul ol,
+	ol ol, ol ul { margin: 4px 0 5px 30px; font-size: 90%;  }
+	ul ul li, ul ol li,
+	ol ol li, ol ul li { margin-bottom: 6px; }
+	li { line-height: 18px; margin-bottom: 12px; text-align: left; }
+	ul.large li { line-height: 21px; }
+	li p { line-height: 21px; }
+	ul.listinline li { display: inline-block; margin: 0 5px 10px 0; }
+
+/* #Images
+================================================== */
+/*
+	The purpose of the below declaration is to make sure images don't
+	exceed the width of columns they are put into when resizing window.
+	Unfortunately, this declaration breaks certain lightbox, slider or other plugins,
+	so the best solution is to individually call these properties on images that
+	are children of the grid that you want to resize with grid.
+
+	img {
+		max-width: 100%;
+		height: auto; }
+
+*/
+
+
+/* #Buttons
+================================================== */
+	a.button,
+	button.button,
+	input[type="submit"].button,
+	input[type="reset"].button,
+	input[type="button"].button {
+	  background: #800000;
+	  border: none;
+	  /*border-bottom: 2px solid rgba(0, 0, 0, 0.4);*/
+	  -moz-border-radius: 3px;
+	  -webkit-border-radius: 3px;
+	  border-radius: 3px;
+	  color: #fff;
+	  display: inline-block;
+	  font-size: 14px;
+	  font-weight: bold;
+	  text-decoration: none;
+	  text-shadow: 0 1px rgba(0, 0, 0, .75);
+	  cursor: pointer;
+	  /*margin-bottom: 10px;*/
+	  line-height: 21px;
+	  font-family: Arial, sans-serif; }
+	a.button {
+		padding: 6px 12px;
+	}
+	button.button,
+	input[type="submit"].button,
+	input[type="reset"].button,
+	input[type="button"].button {
+		padding: 7px 12px;
+	}
+	a.button:hover,
+	button.button:hover,
+	input[type="submit"].button:hover,
+	input[type="reset"].button:hover,
+	input[type="button"].button:hover {
+		background: #FBDF61;
+		color: #000000;
+        text-shadow: 0 1px #fff;
+ }
+
+  a.button:active,
+  button.button:active,
+	input[type="submit"].button:active,
+	input[type="reset"].button:active,
+	input[type="button"].button:active {
+    background: #FBDF61;
+    color: #000000;
+    text-shadow: 0 1px #fff;
+}
+
+	.button.full-width,
+	button.full-width,
+	input[type="submit"].full-width,
+	input[type="reset"].full-width,
+	input[type="button"].full-width {
+		width: 100%;
+		padding-left: 0 !important;
+		padding-right: 0 !important;
+		text-align: center; }
+	a.button.alternate,
+	button.alternate,
+	input[type="submit"].alternate,
+	input[type="reset"].alternate,
+	input[type="button"].alternate {
+		background: #888;
+	}
+	a.button.alternate:hover,
+	button.alternate:hover,
+	input[type="submit"].alternate:hover,
+	input[type="reset"].alternate:hover,
+	input[type="button"].alternate:hover {
+		background: #aaa;
+	}
+	a.button.apply,
+	button.apply,
+	input[type="submit"].apply,
+	input[type="reset"].apply,
+	input[type="button"].apply {
+		background: #00bc73;
+	}
+	a.button.apply:hover,
+	button.apply:hover,
+	input[type="submit"].apply:hover,
+	input[type="reset"].apply:hover,
+	input[type="button"].apply:hover {
+		background: #43d49c;
+	}
+	a.button.cancel,
+	button.cancel,
+	input[type="submit"].cancel,
+	input[type="reset"].cancel,
+	input[type="button"].cancel {
+		background: #F63;
+	}
+	a.button.cancel:hover,
+	button.cancel:hover,
+	input[type="submit"].cancel:hover,
+	input[type="reset"].cancel:hover,
+	input[type="button"].cancel:hover {
+		background: #F96;
+	}
+	.blockButtons a.button,
+	.blockButtons button,
+	.blockButtons input[type="submit"],
+	.blockButtons input[type="reset"],
+	.blockButtons input[type="button"] {
+		margin-bottom: 10px;
+	}
+	a.button.small,
+	button.small,
+	input[type="submit"].small,
+	input[type="reset"].small,
+	input[type="button"].small {
+		font-size: 12px;
+		line-height: 18px;
+		padding: 3px 8px;
+	}
+/* #Tabs (activate in app.js)
+================================================== */
+	ul.tabs {
+		display: block;
+		margin: 0 0 20px 0;
+		padding: 0;
+		border-bottom: solid 1px #ddd; }
+	ul.tabs li {
+		display: block;
+		width: auto;
+		height: 30px;
+		padding: 0;
+		float: left;
+		margin-bottom: 0; }
+	ul.tabs li a {
+		display: block;
+		text-decoration: none;
+		width: auto;
+		height: 29px;
+		padding: 0px 20px;
+		line-height: 30px;
+		border: solid 1px #ddd;
+		border-width: 1px 0 0 1px;
+		margin: 0;
+		background: #f5f5f5;
+		font-size: 13px;
+		color: #999; }
+	ul.tabs li a.active {
+		background: #fff;
+		height: 30px;
+		position: relative;
+		top: -4px;
+		padding-top: 4px;
+		border-right-width: 1px;
+		margin: 0 -1px 0 0;
+		color: #111;
+		-moz-border-radius-topleft: 2px;
+		-webkit-border-top-left-radius: 2px;
+		border-top-left-radius: 2px;
+		-moz-border-radius-topright: 2px;
+		-webkit-border-top-right-radius: 2px;
+		border-top-right-radius: 2px; }
+	ul.tabs li:first-child a {
+		-moz-border-radius-topleft: 2px;
+		-webkit-border-top-left-radius: 2px;
+		border-top-left-radius: 2px; }
+	ul.tabs li:last-child a {
+		border-width: 1px 1px 0 1px;
+		-moz-border-radius-topright: 2px;
+		-webkit-border-top-right-radius: 2px;
+		border-top-right-radius: 2px; }
+
+	ul.tabs-content { margin: 0; display: block; }
+	ul.tabs-content > li { display:none; }
+	ul.tabs-content > li.active { display: block; }
+
+	/* Clearfixing tabs for beautiful stacking */
+	ul.tabs:before,
+	ul.tabs:after {
+	  content: '\0020';
+	  display: block;
+	  overflow: hidden;
+	  visibility: hidden;
+	  width: 0;
+	  height: 0; }
+	ul.tabs:after {
+	  clear: both; }
+	ul.tabs {
+	  zoom: 1; }
+
+
+/* #Forms
+================================================== */
+
+	form {
+		margin-bottom: 20px; }
+	fieldset {
+		margin-bottom: 20px; }
+	input[type="text"],
+	input[type="password"],
+	input[type="email"],
+	input[type="search"],
+	textarea,
+	select {
+		border: 1px solid #ccc;
+		padding: 6px 4px;
+		outline: none;
+		-moz-border-radius: 2px;
+		-webkit-border-radius: 2px;
+		border-radius: 2px;
+		font: 13px Arial, sans-serif;
+		color: #777;
+		margin: 0;
+		width: 210px;
+		max-width: 100%;
+		display: block;
+		margin-bottom: 20px;
+		background: #fff; }
+	input[type="text"].long,
+	input[type="password"].long,
+	input[type="email"].long,
+	input[type="search"].long,
+	textarea.long,
+	select.long {
+		width: 100%;
+	}
+	select {
+		padding: 0; }
+	input[type="text"]:focus,
+	input[type="password"]:focus,
+	input[type="email"]:focus,
+	input[type="search"]:focus,
+	textarea:focus {
+		border: 1px solid #aaa;
+ 		color: #444;
+ 		-moz-box-shadow: 0 0 3px rgba(0,0,0,.2);
+		-webkit-box-shadow: 0 0 3px rgba(0,0,0,.2);
+		box-shadow:  0 0 3px rgba(0,0,0,.2); }
+	textarea {
+		min-height: 100px; }
+	label,
+	legend {
+		display: block;
+		font-weight: bold;
+		font-size: 13px;  }
+	select {
+		width: 220px; }
+	input[type="checkbox"] {
+		display: inline; }
+	label span,
+	legend span {
+		font-weight: normal;
+		font-size: 13px;
+		color: #444; }
+
+/* #Misc
+================================================== */
+	.remove-bottom { margin-bottom: 0 !important; }
+	.half-bottom { margin-bottom: 10px !important; }
+	.add-bottom { margin-bottom: 20px !important; }
+
+.panel.cms-content {
+  padding: 15px;
+}
+
+.cms-content ul {
+	margin-left: 30px;
+	list-style: disc;
+}
+.cms-content table {
+	margin-bottom: 15px;
+}
+.cms-content table th,
+.cms-content table thead td {
+	background-color: #ccc;
+	padding: 3px;
+	font-size: 0.9em;
+	line-height: 1.2em;
+	font-weight: bold;
+}
+.cms-content table td {
+	border: 1px solid #ccc;
+	padding: 3px;
+	font-size: 0.9em;
+	line-height: 1.2em;
+}
+
+/* #Img gray scale
+=================================================== */
+
+img.grayscale {
+    filter: url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\'><filter id=\'grayscale\'><feColorMatrix type=\'matrix\' values=\'0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0\'/></filter></svg>#grayscale"); /* Firefox 3.5+, IE10 */
+    filter: gray; /* IE6-9 */
+    -webkit-filter: grayscale(100%); /* Chrome 19+ & Safari 6+ */
+    -webkit-transition: all .6s ease; /* Fade to color for Chrome and Safari */
+    -webkit-backface-visibility: hidden; /* Fix for transition flickering */
+}
+
+img.grayscale:hover {
+    filter: none;
+    -webkit-filter: grayscale(0%);
+}
+
+a.activeAdminMenu {
+    font-weight: 700;
+    text-decoration: underline;
+}
+
+input.text { margin-bottom:12px; width:95%; padding: .4em; }
+textarea.text { margin-bottom:12px; width:95%; padding: .4em; }
+.ui-dialog .ui-state-error { padding: .3em; }
+.validateTips { border: 1px solid transparent; padding: 0.3em; }
+
+#overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background: #000;
+    opacity: 0.8;
+    filter: alpha(opacity=80);
+}
+#loading {
+    width: 50px;
+    height: 57px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -28px 0 0 -25px;
+}
+
+.reference {
+    border: 1px dotted;
+    display: none;
+    margin-bottom: 0.5em;
+    width: 100%;
+    overflow: auto;
+}
+
+.reference .header {
+    background-color: #f5f3f1;
+    border-bottom: 1px dotted #222222;
+    padding: 0.2em 0.5em;
+}
+
+.reference .ref {
+    margin: 0.5em;
+    font-family: "Courier New";
+}
+
+.noJustify {
+    text-align: left !important;
+}
+
+.ibm-sewa-wrapper {
+	font-family: Calibri !important;
+
+}
+
+.ibm-sewa-wrapper h1, .ibm-sewa-wrapper h2, .ibm-sewa-wrapper h3, .ibm-sewa-wrapper h4, .ibm-sewa-wrapper h5, .ibm-sewa-wrapper h6 {
+	font-family: Calibri !important;
+}
+
+.linkWrapperLight {
+	color:  #5a0000;
+}
+
+.video-container {
+	position: relative;
+	padding-bottom: 56.25%;
+	padding-top: 35px;
+	height: 0;
+	overflow: hidden;
+}
+
+.video-container iframe {
+	position: absolute;
+	top:0;
+	left: 0;
+	width: 100%;
+	height: 90%;
+}
